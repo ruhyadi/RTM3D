@@ -1,0 +1,11 @@
+opencv-python==4.4.*
+Cython
+numba
+progress
+matplotlib
+easydict
+scipy
+pycocotools
+fire
+scikit-image
+tensorboardX
