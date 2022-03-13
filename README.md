@@ -2,11 +2,11 @@
 
 ## Installation
 
-### 1. Install Conda Env
-### 2. Install PyTorch and Torchvision
-### 3. Install Requirements
+#### 1. Install Conda Env
+#### 2. Install PyTorch and Torchvision
+#### 3. Install Requirements
 
-### 4. Compile Deformable Convolution (DCNv2)
+#### 4. Compile Deformable Convolution (DCNv2)
 
 Clone DCNv2 for PyTorch > 1.8 from [ruhyadi/DCNv2_18](https://github.com/ruhyadi/DCNv2_18)
 ```
@@ -20,7 +20,7 @@ cd DCNv2
 python setup.py build develop
 ```
 
-### 5. Compile IoU3D
+#### 5. Compile IoU3D
 Clone IoU3D from [ruhyadi/iou3d](https://github.com/ruhyadi/iou3d)
 ```
 cd src/lib/utils
