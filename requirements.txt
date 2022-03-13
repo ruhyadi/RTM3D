@@ -1,4 +1,4 @@
-opencv-python
+opencv-python==4.4.*
 Cython
 numba
 progress

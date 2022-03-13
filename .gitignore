@@ -130,3 +130,6 @@ dmypy.json
 
 # master
 /master
+
+# models
+*.pth
