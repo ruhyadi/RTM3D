@@ -8,6 +8,7 @@ import numpy as np
 import json
 import os
 import torch.utils.data as data
+
 class KITTIHP(data.Dataset):
     num_classes = 3
     num_joints = 9

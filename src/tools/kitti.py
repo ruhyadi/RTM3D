@@ -68,9 +68,12 @@ def read_clib0(calib_path):
             calib = np.array(line[:-1].split(' ')[1:], dtype=np.float32)
             calib = calib.reshape(3, 4)
             return calib
+
 cats = ['Car', 'Pedestrian', 'Cyclist', 'Van', 'Truck', 'Person_sitting',
         'Tram', 'Misc', 'DontCare']
+        
 det_cats=['Car', 'Pedestrian', 'Cyclist']
+
 if nuscenes:
     cats = ['car', 'truck', 'bus', 'trailer', 'construction_vehicle', 'pedestrian', 'motorcycle', 'bicycle',
             'traffic_cone', 'barrier']

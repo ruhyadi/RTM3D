@@ -344,11 +344,19 @@ class opts(object):
             'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225],
             'dataset': 'nuscenes_hp', 'num_joints': 8,
             'flip_idx': [[1, 2], [3, 4], [5, 6], [7, 8]]},
-        }
+        # TODO: Change to lyft dataset
+        'KM3D_Lyft': {
+            'default_resolution': [896, 1600], 'num_classes': 10,
+            'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225],
+            'dataset': 'nuscenes_hp', 'num_joints': 8,
+            'flip_idx': [[1, 2], [3, 4], [5, 6], [7, 8]]},
+      }
+      
     class Struct:
       def __init__(self, entries):
         for k, v in entries.items():
           self.__setattr__(k, v)
+
     opt = self.parse(args)
     dataset = Struct(default_dataset_info['KM3D'])
     opt.dataset = dataset.dataset

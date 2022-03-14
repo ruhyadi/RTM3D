@@ -9,17 +9,18 @@ import json
 import os
 import torch.utils.data as data
 
-class NUSCENESHP(data.Dataset):
+class LYFTHP(data.Dataset):
     num_classes = 10
     num_joints = 9
     default_resolution = [896, 1600]
 
+    # TODO: Get mean from lyft dataset 
     mean = np.array([0.485, 0.456, 0.406], np.float32).reshape(1, 1, 3)
     std = np.array([0.229, 0.224, 0.225], np.float32).reshape(1, 1, 3)
     flip_idx = [[0, 1], [2, 3], [4, 5], [6, 7]]
 
     def __init__(self, opt, split):
-        super(NUSCENESHP, self).__init__()
+        super(LYFTHP, self).__init__()
         self.edges = [[0, 1], [0, 2], [1, 3], [2, 4],
                       [4, 6], [3, 5], [5, 6],
                       [5, 7]]
@@ -38,6 +39,8 @@ class NUSCENESHP(data.Dataset):
                 'kitti_{}_nuscenes.json').format(split)
         self.max_objs = 32
         self._data_rng = np.random.RandomState(123)
+
+        # eigenvalue and eigenvector for color augmentation
         self._eig_val = np.array([0.2141788, 0.01817699, 0.00341571],
                                  dtype=np.float32)
         self._eig_vec = np.array([
@@ -48,7 +51,9 @@ class NUSCENESHP(data.Dataset):
         self.split = split
         self.opt = opt
         self.alpha_in_degree = False
-        print('==> initializing kitti{} data.'.format(split))
+
+        print('==> initializing lyft{} data.'.format(split))
+
         self.coco = coco.COCO(self.annot_path)
         image_ids = self.coco.getImgIds()
         if split == 'train':

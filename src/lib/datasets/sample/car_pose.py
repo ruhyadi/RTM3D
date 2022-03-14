@@ -23,11 +23,13 @@ class CarPoseDataset(data.Dataset):
 
     def _convert_alpha(self, alpha):
         return math.radians(alpha + 45) if self.alpha_in_degree else alpha
+
     def _get_border(self, border, size):
         i = 1
         while size - border // i <= border // i:
             i *= 2
         return border // i
+
     def read_calib(self,calib_path):
         f = open(calib_path, 'r')
         for i, line in enumerate(f):
@@ -35,6 +37,7 @@ class CarPoseDataset(data.Dataset):
                 calib = np.array(line[:-1].split(' ')[1:], dtype=np.float32)
                 calib = calib.reshape(3, 4)
                 return calib
+                
     def __getitem__(self, index):
         img_id = self.images[index]
         file_name = self.coco.loadImgs(ids=[img_id])[0]['file_name']

@@ -9,3 +9,4 @@ pycocotools
 fire
 scikit-image
 tensorboardX
+lyft_dataset_sdk
