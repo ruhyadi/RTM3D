@@ -26,7 +26,7 @@ class LYFTHP(data.Dataset):
                       [5, 7]]
 
         self.acc_idxs = [1, 2, 3, 4, 5, 6, 7, 8]
-        self.data_dir = os.path.join(opt.data_dir, 'kitti')
+        self.data_dir = os.path.join(opt.data_dir, 'lyft')
         self.img_dir= os.path.join(self.data_dir,'image')
         self.calib_dir = os.path.join(self.data_dir,'calib')
         if split == 'test':
@@ -36,7 +36,7 @@ class LYFTHP(data.Dataset):
         else:
             self.annot_path = os.path.join(
                 self.data_dir, 'annotations',
-                'kitti_{}_nuscenes.json').format(split)
+                'lyft_{}.json').format(split)
         self.max_objs = 32
         self._data_rng = np.random.RandomState(123)
 
@@ -46,8 +46,7 @@ class LYFTHP(data.Dataset):
         self._eig_vec = np.array([
             [-0.58752847, -0.69563484, 0.41340352],
             [-0.5832747, 0.00994535, -0.81221408],
-            [-0.56089297, 0.71832671, 0.41158938]
-        ], dtype=np.float32)
+            [-0.56089297, 0.71832671, 0.41158938]], dtype=np.float32)
         self.split = split
         self.opt = opt
         self.alpha_in_degree = False
