@@ -48,6 +48,7 @@ def project_to_image(pts_3d, P,img_shape):
   pts_2d=np.column_stack((pts_2d,is_vis))
   # import pdb; pdb.set_trace()
   return pts_2d,vis_num,pts_center
+  
 def project_to_image3(pts_3d, P,img_shape):
   # pts_3d: n x 3
   # P: 3 x 4

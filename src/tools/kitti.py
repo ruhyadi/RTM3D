@@ -13,6 +13,7 @@ if nuscenes:
     DATA_PATH = './kitti_format/data/nuscenes/'
 DEBUG = False
 # VAL_PATH = DATA_PATH + 'training/label_val/'
+
 import os
 import math
 SPLITS = ['train1']
@@ -54,6 +55,7 @@ def read_clib(calib_path):
             calib = np.array(line[:-1].split(' ')[1:], dtype=np.float32)
             calib = calib.reshape(3, 4)
             return calib
+
 def read_clib3(calib_path):
     f = open(calib_path, 'r')
     for i, line in enumerate(f):
@@ -61,6 +63,7 @@ def read_clib3(calib_path):
             calib = np.array(line[:-1].split(' ')[1:], dtype=np.float32)
             calib = calib.reshape(3, 4)
             return calib
+
 def read_clib0(calib_path):
     f = open(calib_path, 'r')
     for i, line in enumerate(f):
@@ -69,7 +72,7 @@ def read_clib0(calib_path):
             calib = calib.reshape(3, 4)
             return calib
 
-cats = ['Car', 'Pedestrian', 'Cyclist', 'Van', 'Truck', 'Person_sitting',
+de = ['Car', 'Pedestrian', 'Cyclist', 'Van', 'Truck', 'Person_sitting',
         'Tram', 'Misc', 'DontCare']
         
 det_cats=['Car', 'Pedestrian', 'Cyclist']
@@ -120,6 +123,7 @@ for SPLIT in SPLITS:
             image_info = {'file_name': '{}.png'.format(line),
                           'id': int(image_id),
                           'calib': calib.tolist()}
+
             ret['images'].append(image_info)
             if split == 'test':
                 continue
@@ -144,7 +148,7 @@ for SPLIT in SPLITS:
                     image = cv2.imread(os.path.join(image_set_path, image_info['file_name']))
                     bbox = [float(tmp[4]), float(tmp[5]), float(tmp[6]), float(tmp[7])]
                     box_3d = compute_box_3d(dim, location, rotation_y)
-                    box_2d_as_point,vis_num,pts_center = project_to_image(box_3d, calib,image.shape)
+                    box_2d_as_point, vis_num, pts_center = project_to_image(box_3d, calib,image.shape)
                     box_2d_as_point=np.reshape(box_2d_as_point,(1,27))
                     #box_2d_as_point=box_2d_as_point.astype(np.int)
                     box_2d_as_point=box_2d_as_point.tolist()[0]
@@ -169,9 +173,9 @@ for SPLIT in SPLITS:
                            'calib':calib_list,
                             }
                     ret['annotations'].append(ann)
+
         print("# images: ", len(ret['images']))
         print("# annotations: ", len(ret['annotations']))
         # import pdb; pdb.set_trace()
         out_path = '{}annotations/kitti_{}.json'.format(DATA_PATH, split)
         json.dump(ret, open(out_path, 'w'))
-
