@@ -141,3 +141,4 @@ dmypy.json
 /exp
 /devkit
 /data/Lyft_KITTI
+*.json

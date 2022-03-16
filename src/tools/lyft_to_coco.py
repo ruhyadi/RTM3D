@@ -48,7 +48,7 @@ class Lyft2COCO:
         self.calib_dir = os.path.join(self.data_path, 'calib/')
 
         # image shape
-        self.img_shape = tuple(img_shape)
+        self.img_shape = img_shape
         
         self.splits_imagesets = ['train', 'val']
 
@@ -91,7 +91,7 @@ class Lyft2COCO:
             print('# annotations:', len(self.ret['annotations']))
 
             # save json
-            output_file = self.output_path + f'{split}.json'
+            output_file = self.output_dir + f'/{split}.json'
             json.dump(self.ret, open(output_file, 'w'))
 
     def read_annotations(self, annotations_file):
@@ -140,7 +140,7 @@ class Lyft2COCO:
     def read_calib(self, calib_path):
         calib_file = open(calib_path, 'r')
         for i, line in enumerate(calib_file):
-            if i == 3: # read P2 only
+            if i == 2: # read P2 only
                 calib = np.array(line[:-1].split(' ')[1:], dtype=np.float32)
                 calib = calib.reshape(3, 4)
                 return calib

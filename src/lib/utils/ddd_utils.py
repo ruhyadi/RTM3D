@@ -22,7 +22,7 @@ def compute_box_3d(dim, location, rotation_y):
   corners_3d = corners_3d + np.array(location, dtype=np.float32).reshape(3, 1)
   return corners_3d.transpose(1, 0)
 
-def project_to_image(pts_3d, P,img_shape):
+def project_to_image(pts_3d, P, img_shape):
   # pts_3d: n x 3
   # P: 3 x 4
   # return: n x 2
