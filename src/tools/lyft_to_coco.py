@@ -6,6 +6,8 @@ from __future__ import absolute_import, annotations
 from __future__ import division
 from __future__ import print_function
 
+import _init_paths
+
 import math
 import os
 import argparse
@@ -39,11 +41,14 @@ class Lyft2COCO:
         for i, cat in enumerate(self.categories):
             self.cat_info.append({'name': cat, 'id': i+1})
 
-    def lyft_to_coco(self):
+    def lyft_to_coco(self, img_shape=[1024, 1224, 3]):
         # loop to splits
         self.images_dir = os.path.join(self.data_path, 'image')
         self.ann_dir = os.path.join(self.data_path, 'label')
         self.calib_dir = os.path.join(self.data_path, 'calib')
+
+        # image shape
+        self.img_shape = tuple(img_shape)
         
         # TODO: buat image_sets isinya image untuk training dan validation
         self.splits_imagesets = ['train', 'val']
@@ -106,10 +111,10 @@ class Lyft2COCO:
             bbox = [0., 0., 0., 0.]
             calib_list = np.reshape(self.calib, (12)).tolist()
             if ann[0] in self.det_cats:
-                image = cv2.imread(os.path.join(self.image_set_path, self.image_info['file_name']))
+                # image = cv2.imread(os.path.join(self.image_set_path, self.image_info['file_name']))
                 bbox = [float(ann[4]), float(ann[5]), float(ann[6]), float(ann[7])]
                 box_3d = compute_box_3d(dim, location, rotation_y)
-                box_2d_as_point, vis_num, pts_center = project_to_image(box_3d, self.calib, image.shape)
+                box_2d_as_point, vis_num, pts_center = project_to_image(box_3d, self.calib, self.img_shape)
                 box_2d_as_point = np.reshape(box_2d_as_point, (1, 27))
                 box_2d_as_point = box_2d_as_point.tolist()[0]
                 num_keypoints = vis_num
@@ -149,10 +154,11 @@ def main():
     parser = argparse.ArgumentParser(description='Lyft to COCO')
     parser.add_argument('--data_path', type=str, default='data/lyft/', help='Lyft data path')
     parser.add_argument('--output_path', type=str, default='data/lyft/annotations', help='JSON output path')
+    parser.add_argument('--image_shape', type=int, nargs='+', default=[1024, 1224, 3], help='Image shape [h, w, c]')
     args = parser.parse_args()
 
     converter = Lyft2COCO(data_path=args.data_path, output_dir=args.output_path)
-    converter.lyft_to_coco()
+    converter.lyft_to_coco(img_shape=args.image_shape)
 
 if __name__ == '__main__':
     main()
