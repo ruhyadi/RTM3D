@@ -84,6 +84,21 @@ python src/tools/export_kitti.py \
     --store_dir data/lyft_kitti
 ```
 
+### Generate Image List
+```
+python src/tools/create_sets_lyft.py \
+    --data_path data/Lyft_KITTI/Store/label_2 \
+    --val_size 0.1 \
+    --output_path data
+```
+
+### Convert Lyft to COCO
+```
+python src/tools/lyft_to_coco.py \
+    --data_path data/Lyft_KITTI/Store/ \
+    --output_path data
+```
+
 ## Inference
 ```bash
 python ./src/faster.py \

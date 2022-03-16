@@ -44,13 +44,12 @@ class Lyft2COCO:
     def lyft_to_coco(self, img_shape=[1024, 1224, 3]):
         # loop to splits
         self.images_dir = os.path.join(self.data_path, 'image')
-        self.ann_dir = os.path.join(self.data_path, 'label')
-        self.calib_dir = os.path.join(self.data_path, 'calib')
+        self.ann_dir = os.path.join(self.data_path, 'label/')
+        self.calib_dir = os.path.join(self.data_path, 'calib/')
 
         # image shape
         self.img_shape = tuple(img_shape)
         
-        # TODO: buat image_sets isinya image untuk training dan validation
         self.splits_imagesets = ['train', 'val']
 
         # loop thru image_sets
@@ -65,7 +64,7 @@ class Lyft2COCO:
             for line in tqdm(self.image_set):
                 if line[-1] == '\n':
                     line = line[:-1]
-                self.image_id = int(line)
+                self.image_id = line
 
                 # read calibration file
                 calib_path = self.calib_dir + f'{line}.txt'
@@ -73,7 +72,7 @@ class Lyft2COCO:
 
                 self.image_info = {
                     'file_name': f'{line}.jpeg', # lyft in jpeg
-                    'id': int(self.image_id),
+                    'id': self.image_id,
                     'calib': self.calib.tolist()
                     }
                 # add image_info to annotations
