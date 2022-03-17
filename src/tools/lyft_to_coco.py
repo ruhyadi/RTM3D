@@ -40,10 +40,10 @@ class Lyft2COCO:
         'motorcycle', 'truck', 'emergency_vehicle', 'bicycle']
 
         # detection categories (6 items)
-        self.det_cats = ['car', 'pedestrian', 'bus', 'motorcycle', 'truck', 'bicycle']
+        self.det_cats = ['car', 'pedestrian', 'animal', 'other_vehicle', 'bus',
+        'motorcycle', 'truck', 'emergency_vehicle', 'bicycle']
 
         self.cat_ids = {cat: i + 1 for i, cat in enumerate(self.categories)}
-        self.det_ids = [1, 2, 5, 6, 7, 9]
 
         self.cat_info = []
         for i, cat in enumerate(self.categories):
@@ -123,7 +123,7 @@ class Lyft2COCO:
             box_2d_as_point = [0] * 27
             bbox = [0., 0., 0., 0.]
             calib_list = np.reshape(self.calib, (12)).tolist()
-            if cat_id in self.det_ids:
+            if ann[0] in self.det_cats:
                 # image = cv2.imread(os.path.join(self.image_set_path, self.image_info['file_name']))
                 bbox = [float(ann[4]), float(ann[5]), float(ann[6]), float(ann[7])]
                 box_3d = compute_box_3d(dim, location, rotation_y)
