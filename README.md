@@ -97,7 +97,7 @@ python src/tools/create_sets_lyft.py \
 python src/tools/lyft_to_coco.py \
     --data_path data/Lyft_KITTI/Store/ \
     --output_path data
-```
+
 
 ## Inference
 ```bash
