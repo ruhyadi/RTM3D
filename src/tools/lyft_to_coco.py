@@ -49,7 +49,7 @@ class Lyft2COCO:
         for i, cat in enumerate(self.det_cats):
             self.cat_info.append({'name': cat, 'id': i+1})
 
-    def lyft_to_coco(self, img_shape=[1024, 1224, 3]):
+    def lyft_to_coco(self, img_shape=[1080, 1920, 3]):
         # loop to splits
         self.ann_dir = os.path.join(self.data_path, 'label/')
         self.calib_dir = os.path.join(self.data_path, 'calib/')
