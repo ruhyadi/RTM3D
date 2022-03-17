@@ -87,7 +87,7 @@ python src/tools/export_kitti.py \
 ### Generate Image List
 ```
 python src/tools/create_sets_lyft.py \
-    --data_path data/Lyft_KITTI/Store/label_2 \
+    --data_path data/lyft_mini/label_2 \
     --val_size 0.1 \
     --output_path data
 ```

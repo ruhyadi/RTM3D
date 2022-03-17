@@ -46,11 +46,11 @@ class CarPoseDataset(data.Dataset):
         anns = self.coco.loadAnns(ids=ann_ids)
         num_objs = min(len(anns), self.max_objs)
         label_sel = np.array([1.], dtype=np.float32)
-        # name_in = int(file_name[:6])
-        name_in = file_name
+        name_in = int(file_name[:6])
+        # name_in = file_name
         # TODO: divide train and test in lyft dataset
-        # if name_in > 14961 and name_in < 22480:
-        #     label_sel[0] = 0.
+        if name_in > 14961 and name_in < 22480:
+            label_sel[0] = 0.
         img = cv2.imread(img_path)
         height, width = img.shape[0], img.shape[1]
         c = np.array([img.shape[1] / 2., img.shape[0] / 2.], dtype=np.float32)

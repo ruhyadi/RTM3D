@@ -141,4 +141,5 @@ dmypy.json
 /exp
 /devkit
 /data/Lyft_KITTI
+/data/lyft_mini
 *.json
