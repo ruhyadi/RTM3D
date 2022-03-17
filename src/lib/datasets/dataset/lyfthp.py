@@ -27,7 +27,8 @@ class LYFTHP(data.Dataset):
 
         self.acc_idxs = [1, 2, 3, 4, 5, 6, 7, 8]
         self.data_dir = os.path.join(opt.data_dir, 'lyft')
-        self.img_dir= os.path.join(self.data_dir,'image')
+        # self.img_dir= os.path.join(self.data_dir,'image')
+        self.img_dir= self.data_dir
         self.calib_dir = os.path.join(self.data_dir,'calib')
         if split == 'test':
             self.annot_path = os.path.join(
