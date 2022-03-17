@@ -12,7 +12,7 @@ import torch.utils.data as data
 class LYFTHP(data.Dataset):
     num_classes = 3
     num_joints = 9
-    default_resolution = [1024, 1224]
+    default_resolution = [1080, 1920]
 
     # TODO: Get mean from lyft dataset 
     mean = np.array([0.485, 0.456, 0.406], np.float32).reshape(1, 1, 3)
