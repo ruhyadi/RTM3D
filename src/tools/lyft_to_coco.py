@@ -18,15 +18,22 @@ import cv2
 from tqdm import tqdm
 
 from utils.ddd_utils import compute_box_3d, project_to_image
+from lyft_dataset_sdk.lyftdataset import LyftDataset 
+
 
 class Lyft2COCO:
-    def __init__(self, data_path, output_dir) -> None:
+    def __init__(self, data_path, output_dir, lyft_path) -> None:
         # directory
         self.data_path = data_path
         self.output_dir = output_dir
+        self.lyft_path = lyft_path
+        self.json_path = os.path.join(self.lyft_path, 'train_data')
 
         if not os.path.isdir(self.output_dir):
             os.makedirs(self.output_dir)
+
+        # lyftdataset
+        self.lyft = LyftDataset(data_path=self.lyft_path, json_path=self.json_path)
 
         # category (9 items)
         self.categories = ['car', 'pedestrian', 'animal', 'other_vehicle', 'bus',
@@ -43,7 +50,6 @@ class Lyft2COCO:
 
     def lyft_to_coco(self, img_shape=[1024, 1224, 3]):
         # loop to splits
-        self.images_dir = os.path.join(self.data_path, 'image')
         self.ann_dir = os.path.join(self.data_path, 'label/')
         self.calib_dir = os.path.join(self.data_path, 'calib/')
 
@@ -61,17 +67,24 @@ class Lyft2COCO:
             }
             self.image_set = open(self.data_path + f'{split}.txt', 'r')
 
+            # line = token_to_write
             for line in tqdm(self.image_set):
                 if line[-1] == '\n':
                     line = line[:-1]
                 self.image_id = line
+                
+                # TODO: convert image name to line 
+
+                # image filename
+                sd_record_cam = self.lyft.get("sample_data", line)
+                filename = sd_record_cam['filename']
 
                 # read calibration file
                 calib_path = self.calib_dir + f'{line}.txt'
                 self.calib = self.read_calib(calib_path)
 
                 self.image_info = {
-                    'file_name': f'{line}.jpeg', # lyft in jpeg
+                    'file_name': f'{filename}', # lyft in jpeg
                     'id': self.image_id,
                     'calib': self.calib.tolist()
                     }
@@ -152,11 +165,12 @@ class Lyft2COCO:
 def main():
     parser = argparse.ArgumentParser(description='Lyft to COCO')
     parser.add_argument('--data_path', type=str, default='data/lyft/', help='Lyft data path')
+    parser.add_argument('--lyft_path', type=str, default='data/lyft/', help='Lyft data path')
     parser.add_argument('--output_path', type=str, default='data/lyft/annotations', help='JSON output path')
     parser.add_argument('--image_shape', type=int, nargs='+', default=[1024, 1224, 3], help='Image shape [h, w, c]')
     args = parser.parse_args()
 
-    converter = Lyft2COCO(data_path=args.data_path, output_dir=args.output_path)
+    converter = Lyft2COCO(data_path=args.data_path, output_dir=args.output_path, lyft_path=args.lyft_path)
     converter.lyft_to_coco(img_shape=args.image_shape)
 
 if __name__ == '__main__':
