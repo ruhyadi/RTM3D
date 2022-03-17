@@ -40,13 +40,12 @@ class Lyft2COCO:
         'motorcycle', 'truck', 'emergency_vehicle', 'bicycle']
 
         # detection categories (6 items)
-        self.det_cats = ['car', 'pedestrian', 'animal', 'other_vehicle', 'bus',
-        'motorcycle', 'truck', 'emergency_vehicle', 'bicycle']
+        self.det_cats = ['car', 'pedestrian', 'animal']
 
         self.cat_ids = {cat: i + 1 for i, cat in enumerate(self.categories)}
 
         self.cat_info = []
-        for i, cat in enumerate(self.categories):
+        for i, cat in enumerate(self.det_cats):
             self.cat_info.append({'name': cat, 'id': i+1})
 
     def lyft_to_coco(self, img_shape=[1024, 1224, 3]):

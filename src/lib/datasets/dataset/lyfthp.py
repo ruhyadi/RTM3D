@@ -10,7 +10,7 @@ import os
 import torch.utils.data as data
 
 class LYFTHP(data.Dataset):
-    num_classes = 9
+    num_classes = 3
     num_joints = 9
     default_resolution = [1024, 1224]
 

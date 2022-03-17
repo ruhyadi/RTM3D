@@ -346,7 +346,7 @@ class opts(object):
             'flip_idx': [[1, 2], [3, 4], [5, 6], [7, 8]]},
         # TODO: Change to lyft dataset
         'KM3D_Lyft': {
-            'default_resolution': [1024, 1224], 'num_classes': 9,
+            'default_resolution': [1024, 1224], 'num_classes': 3,
             'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225],
             'dataset': 'lyft_hp', 'num_joints': 9,
             'flip_idx': [[1, 2], [3, 4], [5, 6], [7, 8]]},
