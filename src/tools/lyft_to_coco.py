@@ -77,8 +77,11 @@ class Lyft2COCO:
                 # TODO: convert image name to line 
 
                 # image filename
-                sd_record_cam = self.lyft.get("sample_data", line)
-                filename = sd_record_cam['filename']
+                try:
+                    sd_record_cam = self.lyft.get("sample_data", line)
+                    filename = sd_record_cam['filename']
+                except:
+                    filename = 'test'
 
                 # read calibration file
                 calib_path = self.calib_dir + f'{line}.txt'
