@@ -330,7 +330,7 @@ class opts(object):
   def init(self, args=''):
     default_dataset_info = {
       'RTM3D': {
-            'default_resolution': [384, 1280], 'num_classes': 3,
+            'default_resolution': [384, 1280], 'num_classes': 9,
             'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225],
             'dataset': 'kitti_hp', 'num_joints': 8,
             'flip_idx': [[1, 2], [3, 4], [5, 6], [7, 8]]},
@@ -358,7 +358,7 @@ class opts(object):
           self.__setattr__(k, v)
 
     opt = self.parse(args)
-    dataset = Struct(default_dataset_info['KM3D_Lyft'])
+    dataset = Struct(default_dataset_info['RTM3D'])
     opt.dataset = dataset.dataset
     opt = self.update_dataset_info_and_set_heads(opt, dataset)
     return opt

@@ -25,12 +25,12 @@ class ModelWithLoss(torch.nn.Module):
     self.model = model
     self.loss = loss
   
-  def forward(self, batch,unlabel=False,phase=None):
+  def forward(self, batch, unlabel=False, phase=None):
     outputs = self.model(batch['input'])
     if unlabel:
       loss, loss_stats=outputs[-1]['dim'].mean(),{}
     else:
-      loss, loss_stats = self.loss(outputs, batch,phase)
+      loss, loss_stats = self.loss(outputs, batch, phase)
     return outputs[-1], loss, loss_stats
 class BaseTrainer(object):
   def __init__(
