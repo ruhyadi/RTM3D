@@ -2,58 +2,57 @@
 
 ## Installation
 
-## Conda Environment
-
-#### 1. Create Conda Env
+### Conda Environment Development
+1. Crete conda environment
 ```bash
-conda create -n capstone python=3.8 numpy cudatoolkit=10.2
+conda create -n rtm3d python=3.8 numpy
+conda activate rtm3d
 ```
-
-#### 2. Install PyTorch and Torchvision
-Instalasi PyTorch dan Torchvision dapat mengikuti dua cara tergantung dari GPU yang digunakan. Untuk GPU terkini atau yang dipakai pada notebook dapat menginstall langsung melalui `pip`:
+2. Install PyTorch and Torchvision
 ```bash
-pip install torch==1.9.0 torchvision==0.10
+pip install torch==1.4.0 torchvision==0.5.0
 ```
-Jika menggunakan GPU lama (Cuda Compute < 3.5), dapat mendownload `.whl` terlebih dahulu pada blog [Nelson Liu](https://cs.stanford.edu/~nfliu/files/pytorch/whl/torch_stable.html). Setelahnya dapat melakukan installasi melalui pip:
+3. Install depedencies from `requirements.txt`
 ```bash
-pip install ./torch-1.9.0+cu102-cp38-cp38-linux_x86_64.whl
-pip install ./torchvision-0.10.0+cu102-cp38-cp38-linux_x86_64.whl
-```
-
-#### 3. Install Requirements
-Package/library lainnya yang diperlukan dapat diinstal melalui `requirements.txt`:
-```bash
+cd rtm3d
 pip install -r requirements.txt
 ```
+4. Compile Deformable Convolution (DCNv2)
+```bash
+cd src/lib/models/networks
+./make.sh
+```
+5. Compile IoU3D
+```bash
+cd src/lib/utils/iou3d
+python setup.py install
+```
 
-#### 4. Compile Deformable Convolution (DCNv2)
-
+### Conda Environment Inference
+1. Crete conda environment
+```bash
+conda create -n rtm3d python=3.8 numpy
+conda activate rtm3d
+```
+2. Install PyTorch and Torchvision
+```bash
+pip install torch==1.8.1+cu101 torchvision==0.9.1+cu101 -f https://download.pytorch.org/whl/torch_stable.html
+```
+3. Install depedencies from `requirements.txt`
+```bash
+cd rtm3d
+pip install -r requirements.txt
+```
+4. Compile Deformable Convolution (DCNv2). 
 Clone DCNv2 for PyTorch > 1.8 from [ruhyadi/DCNv2_18](https://github.com/ruhyadi/DCNv2_18)
 ```bash
 cd src/lib/models/networks
 rm -rf DCNv2
 git clone https://github.com/ruhyadi/DCNv2_18 ./DCNv2
-```
 
-Build DCNv2 from scrach
-```bash
 cd DCNv2
 python setup.py build develop
 ```
-
-#### 5. Compile IoU3D
-Clone IoU3D from [ruhyadi/iou3d](https://github.com/ruhyadi/iou3d)
-```
-cd src/lib/utils
-rm -rf iou3d
-git clone https://github.com/ruhyadi/iou3d ./iou3d
-```
-Build IoU3D from scract
-```
-cd iou3d
-python setup.py install
-```
-Failed on PyTorch 1.9.0, but can inference model.
 
 ### Docker
 Docker image can be build with:
@@ -72,40 +71,29 @@ Then you can run docker container in interactive mode with:
 ```
 
 ## Dataset Preparation
-
-### Convert Lyft to KITTI
-```
-python src/tools/export_kitti.py \
-    --lyft_dir data/lyft \
-    --json_dir data/lyft/train_data \
-    --get_all_detections False \
-    --num_workers 2 \
-    --samples_count 5 \
-    --store_dir data/lyft_kitti
-```
-
-### Generate Image List
-```
-python src/tools/create_sets_lyft.py \
-    --data_path data/lyft_mini/label_2 \
-    --val_size 0.1 \
-    --output_path data
-```
-
-### Convert Lyft to COCO
-```
-python src/tools/lyft_to_coco.py \
-    --data_path data/Lyft_KITTI/Store/ \
-    --output_path data
-```
+**Works under progress**
 
 ## Inference
+Download pretrained model. Refer to [README-OLD.md](README-OLD.md)
+```bash
+cd /weights
+./download_pretrained.sh
+```
+Run demo inference with:
 ```bash
 python ./src/faster.py \
     --demo ./demo_kitti_format/data/kitti/image \
     --calib_dir ./demo_kitti_format/data/kitti/calib/ \
     --load_model ./weights/model_res18_1.pth \
     --gpus 0 \
-    --vis \
     --arch res_18
 ```
+
+## Todos
+- [x] Install development
+- [x] Run inference (on inference env)
+- [ ] Train KITTI dataset
+
+## Note
+- Development using PyTorch 1.4.0. Inference can use PyTorch > 1.4.0 (1.8.1)
+- 

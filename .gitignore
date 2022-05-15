@@ -143,3 +143,6 @@ dmypy.json
 /data/Lyft_KITTI
 /data/lyft_mini
 *.json
+
+# ignore
+RTM3D-ORI
